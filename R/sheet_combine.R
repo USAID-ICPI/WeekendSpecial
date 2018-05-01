@@ -13,7 +13,7 @@
 sheet_combine <- function(folderpath_reports, folderpath_output = NULL){ 
 
   #genreate full list of sheets within each file
-    df_full_list <- sheet_identify(folder)
+    df_full_list <- sheet_identify(folderpath_reports)
   
   #combine all data into one df
     df_full_weekly <- purrr::map2_dfr(df_full_list$path, df_full_list$sheet_name,
