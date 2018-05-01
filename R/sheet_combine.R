@@ -3,7 +3,6 @@
 #' @param folderpath_reports what folder are all the partner reports stored in?
 #' @param folderpath_output what folder would you like to save the combines output dataset in? If no folder is noted, no file will be saved
 #'
-#' @return
 #' @export
 #' @importFrom dplyr %>%
 #'
