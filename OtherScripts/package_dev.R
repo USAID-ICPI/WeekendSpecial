@@ -6,5 +6,13 @@ document()
 load_all()
 build()
 
-check()
 install()
+
+.rs.restartR()
+library("WeekendSpecial")
+
+
+check()
+
+
+
