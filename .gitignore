@@ -1,12 +1,9 @@
-
-
 #R stuff
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-
 #data
 *.xlsx
 *.csv
-
+WeekendSpecial.Rproj
