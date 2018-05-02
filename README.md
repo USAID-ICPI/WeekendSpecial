@@ -70,6 +70,9 @@ This package is used to import, transform, and combine weekly partner data colle
   ```
   ## WEEKLY UPDATE
   
+  #check for updates
+    devtools::install_github("USAID-ICPI/WeekendSpecial")
+    
   #create combined, tidy dataset (output to csv)
     WeekendSpecial::wpm_combine(folderpath_reports = "C:/Users/.../Weekly Program Data/WeeklyReports", 
                   folderpath_output  = "C:/Users/.../Weekly Program Data/CombinedDataset")
