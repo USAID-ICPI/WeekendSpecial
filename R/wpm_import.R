@@ -7,9 +7,9 @@
 #' @importFrom dplyr %>%
 #' @examples
 #' \dontrun{
-#'   df_parterdata <- sheet_import("~/X Weekly Programme monitoring.xlsx", "HTS_TST")}
+#'   df_parterdata <- wpm_import("~/X Weekly Programme monitoring.xlsx", "HTS_TST")}
 
-sheet_import <- function(filepath, sheet_name){
+wpm_import <- function(filepath, sheet_name){
   
   #import sheet from file
   df <- readxl::read_excel(filepath, sheet = sheet_name) %>% 

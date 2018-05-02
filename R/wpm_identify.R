@@ -7,9 +7,9 @@
 #' 
 #' @examples
 #' \dontrun{
-#' sheet_identify("~/project_x") }
+#' wpm_identify("~/project_x") }
 
-sheet_identify <- function(folderpath){
+wpm_identify <- function(folderpath){
   
   #identify list of all files in 
   files <- fs::dir_ls(folderpath, glob = "*.xlsx")
@@ -23,7 +23,7 @@ sheet_identify <- function(folderpath){
     #unpack list so all one df
     tidyr::unnest() %>% 
     #filter to keep only only  
-    dplyr::filter(stringr::str_detect(sheet_name, "HTS|Early|IPT|Waiting|nconfirmed|TX_CURR"))
+    dplyr::filter(stringr::str_detect(sheet_name, "HTS|Early|IPT|Waiting|nconfirmed|TX_CURR|TX_NEW"))
   
   return(df)
   
