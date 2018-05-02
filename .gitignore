@@ -7,3 +7,6 @@
 *.xlsx
 *.csv
 WeekendSpecial.Rproj
+
+#GIS information
+GIS/*
