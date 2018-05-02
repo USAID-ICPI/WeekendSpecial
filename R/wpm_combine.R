@@ -8,21 +8,21 @@
 #'
 #' @examples
 #'  \dontrun{
-#'  df_weekly <- sheet_combine("~/Week_23")}
+#'  df_weekly <- wpm_combine("~/Week_23")}
 
-sheet_combine <- function(folderpath_reports, folderpath_output = NULL){ 
+wpm_combine <- function(folderpath_reports, folderpath_output = NULL){ 
 
   #genreate full list of sheets within each file
-    df_full_list <- sheet_identify(folderpath_reports)
+    df_full_list <- wpm_identify(folderpath_reports)
   
   #combine all data into one df
     df_full_weekly <- purrr::map2_dfr(df_full_list$path, df_full_list$sheet_name,
-                                   ~ sheet_import(.x, .y))
+                                   ~ wpm_import(.x, .y))
   #export
     if(!is.null(folderpath_output)){
     readr::write_csv(df_full_weekly, 
                      file.path(folderpath_output, 
-                               paste("Output/ZAF-USAID_Weekly-Programmme-Monitoring_", 
+                               paste0("Output/ZAF-USAID_Weekly-Programmme-Monitoring_", 
                                lubridate::today(), ".csv")), 
                      na = "")
     } else {
