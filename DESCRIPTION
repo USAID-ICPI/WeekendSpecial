@@ -1,0 +1,14 @@
+Package: WeekendSpecial
+Title: Import and Combine Weekly Program Data into Tidy Dataset
+Version: 0.0.0.9000
+Authors@R: c(
+      person("Aaron", "Chafetz", email = "achafetz@usaid.gov", role = c("aut", "cre")),
+      person("Josh", "Davis", email = "jodavis@usaid.gov", role = "ctb"))
+Description: Collects and combines weekly partner program data, creating a tidy dataset for exploratory analysis.
+Depends: R (>= 3.4.4)
+License:  CC-BY-SA-4.0
+Imports: dplyr, tidyr, readr, readxl, stringr, purrr
+Encoding: UTF-8
+LazyData: true
+BugReports: https://github.com/USAID-ICPI/WeekendSpecial/issues/15
+RoxygenNote: 6.0.1

@@ -1,6 +1,12 @@
+#R stuff
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-.files
-.gitignore.xlsx
+#data
+*.xlsx
+*.csv
+WeekendSpecial.Rproj
+
+#GIS information
+GIS/*
