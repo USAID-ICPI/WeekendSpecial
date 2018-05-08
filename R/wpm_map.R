@@ -12,7 +12,7 @@
 
 wpm_map <- function(df, folderpath_orgunits){
   #import coordinates file
-    coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*orgunits*.csv")))
+    coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*sites*.csv")))
   #merge onto main df
     df2 <- dplyr::left_join(df, coord, by = c("facility" = "name"))
   
