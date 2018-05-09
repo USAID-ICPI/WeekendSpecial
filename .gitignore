@@ -10,3 +10,4 @@ WeekendSpecial.Rproj
 
 #GIS information
 GIS/*
+.R_Cache/*

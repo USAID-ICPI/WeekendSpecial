@@ -4,10 +4,13 @@
 \alias{wpm_combine}
 \title{Combine all Partner Weekly Data into one tidy dataset}
 \usage{
-wpm_combine(folderpath_reports, folderpath_output = NULL)
+wpm_combine(folderpath_reports, folderpath_sitecoords = NULL,
+  folderpath_output = NULL)
 }
 \arguments{
 \item{folderpath_reports}{what folder are all the partner reports stored in?}
+
+\item{folderpath_sitecoords}{what folder is the site coordinates files stored in? If no folder is noted, no coordinates will be merged on}
 
 \item{folderpath_output}{what folder would you like to save the combines output dataset in? If no folder is noted, no file will be saved}
 }
