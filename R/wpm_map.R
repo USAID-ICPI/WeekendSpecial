@@ -13,10 +13,17 @@
 wpm_map <- function(df, folderpath_orgunits){
   
   if(!is.null(folderpath_orgunits)){
-    #import coordinates file
-    coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*sites*.csv")))
+    #import coordinates file (explicit for silent read in)
+    coord <- readr::read_csv(Sys.glob(file.path("GIS", "*sites*.csv")),
+                             col_types = list(
+                               facility = "c",
+                               facility_uid = "c",
+                               district_uid = "c",
+                               lat = "d",
+                               long = "d")
+    )
     #merge onto main df
-    df <- dplyr::left_join(df, coord, by = c("facility" = "name"))
+    df <- dplyr::left_join(df, coord, by = "facility")
   } else {
     #add blank columns if the coordinates file does not exist
     df <- df %>% 
