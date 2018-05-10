@@ -1,18 +1,41 @@
-# Set up site x IM MSD for FY18 target importation
+#' set up site x IM MSD for FY18 target importation
+#'
+#' @param filepath_msd what is the full filepath to your MSD file with fy18 targets (including .txt extension)
+#' @param folder_output in which folder do you want to store the output .csv file
+#' @param countryname what country are you working with (enclose in "")
+#'
+#' @export
+#' @importFrom dplyr %>% 
+#' @examples 
+#' \dontrun{
+#'   wpm_targets("~/data/Burundi_msd.txt", "~/project", "Burundi")}
+wpm_targets <- function(filepath_msd, folder_output, countryname) {
 
-library(devtools)
-load_all()
+df <- readr::read_tsv(filepath_msd,  
+                      guess_max = 5000000,
+                      col_type  = cols_only(Facility = "c",
+                                           FY2018_TARGETS = "d",
+                                           FacilityUID = "c",
+                                           indicator = "c",
+                                           standardizedDisaggregate = "c",
+                                           SNU1 = "c",
+                                           PSNU = "c",
+                                           Community = "c",
+                                           CommunityUID = "c"))%>% 
+                      dplyr::rename_all(~ tolower(.))
 
+df <- df %>% 
+  dplyr::filter((indicator %in% c("HTS_TST", "HTS_TST_POS", "TX_NEW", "TX_CURR")),
+    standardizeddisaggregate=="Total Numerator", !is.na(fy2018_targets), !is.na(facilityuid)) %>%
+  dplyr::select(-standardizeddisaggregate) %>% 
+  dplyr::group_by_if(is.character) %>% 
+  dplyr::summarise(fy2018_targets = sum(fy2018_targets)) %>% 
+  dplyr::ungroup()
 
-datafolder <- "C:/Users/GHFP/Documents/data/3.23 refresh"
-
-file <- "ICPI_MER_Structured_Dataset_Site_IM_SouthAfrica_20180323_v2_1.txt"
-
-file2 <- "ICPI_MER_Structured_Dataset_Site_IM_Burundi_20180323_v2_1.txt"
-
-df <- readr::read_tsv(file.path(datafolder, file2),
-                      guess_max = 500000) %>% 
-         dplyr::rename_all(df, ~ tolower(.)) %>%
-        
-        
-
+readr::write_csv(df, file.path(folderpath_output, paste0(countryname, "_fy18_site_targets.csv")), na="")
+  
+}
+  
+  
+  
+  
