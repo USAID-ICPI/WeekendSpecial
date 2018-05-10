@@ -16,9 +16,26 @@ wpm_import <- function(filepath, sheet_name){
     dplyr::rename_all(~tolower(.)) %>%   #covert variables to lower case
     dplyr::rename_all(~stringr::str_replace_all(., "\\s|-","_")) #removes spaces and covert "-" to "_"
   
+  
+  #add missing columns if they don't already exist (differences between USAID and CDC)
+  cols <- c("province", "provincial_lead", "site_lead", "10x10_facility", "weekly_reporting", "indicator")
+  for (c in cols) {
+    if(!c %in% colnames(df))
+    {
+      df <- df %>% 
+        dplyr::mutate(!!c := as.character(NA))
+    }
+  }
+  
+  #rename 10x10 facility column (CDC)
+  df <- dplyr::rename(df, tenxten_facility = `10x10_facility`)
+  
   #reshape long to make tidy
+  cols_full <- c("partner", "province", "district", "sub_district", "facility", "tenxten_facility", 
+                 "weekly_reporting", "provincial_lead", "site_lead","indicator")
+  df <- dplyr::select(df, cols_full, dplyr::everything()) #arrange
   df_long <- df %>% 
-    tidyr::gather(pd, value, -partner:-site_lead, na.rm = TRUE)  
+    tidyr::gather(pd, value, -cols_full, na.rm = TRUE)
   
   #covert Excel date (origin - 1899-12-30) to readable date & add variable name (from sheetname)
   df_long <- df_long %>% 
