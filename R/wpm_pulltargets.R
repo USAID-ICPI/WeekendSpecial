@@ -8,9 +8,9 @@
 #' @importFrom dplyr %>% 
 #' @examples 
 #' \dontrun{
-#'   wpm_targets("~/data/Burundi_msd.txt", "~/project", "Burundi")}
+#'   wpm_pulltargets("~/data/Burundi_msd.txt", "~/project", "Burundi")}
 
-wpm_targets <- function(filepath_msd, folder_output, countryname) {
+wpm_pulltargets <- function(filepath_msd, folder_output, countryname) {
 
   #import site MER Structured Dataset, specifying cols to keep
     df <- readr::read_tsv(filepath_msd,  
