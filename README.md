@@ -25,8 +25,8 @@ This package is used to import, transform, and combine weekly partner data colle
       |   `-- Weekly-Programmme-Monitoring_ZAF-USAID_2018-04-30.csv
       |-- SupportingMaterial
       |   `-- ZAF_site-metadata.csv
-      |-- Tableau
-      |   `-- Programme Monitoring Report.twbx
+      `-- Tableau
+          `-- Programme Monitoring Report.twbx
   ```
 
 - You will also need to download a file (ZAF_site-metadata.csv) from Google Drive that contains the meta data related to the partners and their sites (eg lat/lon info). This should be stored locally. In the tree diagram above, this file is stored in the SupportingMaterial folder.
@@ -55,6 +55,9 @@ This package is used to import, transform, and combine weekly partner data colle
     install.packages("tidyverse")
     install.packages("readxl")
     install.packages("devtools")
+    install.packages("fs")
+    install.packages("getPass")
+    devtools::install_github("jason-p-pickering/datim-validation")
   
   #install WeekendSpecial package for ZAF program monitoring data extraction/combination
     devtools::install_github("USAID-ICPI/WeekendSpecial")
@@ -65,7 +68,7 @@ This package is used to import, transform, and combine weekly partner data colle
 
 - Each week when you finish collecting your data, you will need to download all the updated Google Sheets and stored them in a folder. In the tree diagram above, this would be in the WeeklyReports folder. There should be nothing else stored in the folder expect the _current_ partners' Google Sheets saved as .xlsx files. (Delete the previous week's data if there are also stored in this folder).
 
-- Once the files are all stored locally on your machine, you can then run the R package/function that will pull in each indicator sheet from each partner's worksheet and output one unifed file. You will need to open R and then run the following lines of code.
+- Once the files are all stored locally on your machine, you can then run the R package/function that will pull in each indicator sheet from each partner's worksheet and output one unifed file. You will need to open R and then run the following lines of code, changing the file paths to the exact folders where your reports and site coordinates are stored and where you want to save the combined dataset.
 
   ```
   ## WEEKLY UPDATE
@@ -75,6 +78,7 @@ This package is used to import, transform, and combine weekly partner data colle
     
   #create combined, tidy dataset (output to csv)
     WeekendSpecial::wpm_combine(folderpath_reports = "C:/Users/.../Weekly Program Data/WeeklyReports", 
+                  folderpath_sitecoords = "C:/Users/.../Weekly Program Data/GIS",
                   folderpath_output  = "C:/Users/.../Weekly Program Data/CombinedDataset")
     
   ```

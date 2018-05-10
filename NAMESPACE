@@ -2,6 +2,7 @@
 
 export(wpm_combine)
 export(wpm_filerefresh)
+export(wpm_getcoords)
 export(wpm_identify)
 export(wpm_import)
 export(wpm_map)

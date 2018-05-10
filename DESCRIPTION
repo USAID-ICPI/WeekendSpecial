@@ -7,7 +7,7 @@ Authors@R: c(
 Description: Collects and combines weekly partner program data, creating a tidy dataset for exploratory analysis.
 Depends: R (>= 3.4.4)
 License:  CC-BY-SA-4.0
-Imports: dplyr, tidyr, readr, readxl, stringr, purrr
+Imports: dplyr, tidyr, readr, readxl, stringr, purrr, fs
 Encoding: UTF-8
 LazyData: true
 BugReports: https://github.com/USAID-ICPI/WeekendSpecial/issues/15

@@ -11,9 +11,34 @@
 #'  df <- wpm_combine(df,"~/WPM/GIS")}
 
 wpm_map <- function(df, folderpath_orgunits){
-  #import coordinates file
-    coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*orgunits*.csv")))
-  #merge onto main df
-    df2 <- dplyr::left_join(df, coord, by = c("facility" = "name"))
+  
+  if(!is.null(folderpath_orgunits)){
+    #import coordinates file (explicit for silent read in)
+    coord <- readr::read_csv(Sys.glob(file.path("GIS", "*sites*.csv")),
+                             col_types = list(
+                               facility = "c",
+                               facility_uid = "c",
+                               district_uid = "c",
+                               lat = "d",
+                               long = "d")
+    )
+    #merge onto main df
+    df <- dplyr::left_join(df, coord, by = "facility")
+  } else {
+    #add blank columns if the coordinates file does not exist
+    df <- df %>% 
+      dplyr::mutate(facility_uid = NA, 
+             district_uid = NA, 
+             lat = NA, 
+             long = NA)
+  }
+  
+  #arrange
+  df <- df %>% 
+    dplyr::select(partner, district, district_uid, sub_district, facility, 
+           facility_uid, lat, long, provincial_lead, site_lead, indicator, 
+           date, quarter, value)
+  
+  return(df)
   
 }
