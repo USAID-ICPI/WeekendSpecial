@@ -4,6 +4,7 @@
 #'
 #' @param organisationUnit what is the UID for the country you would like site coordinates for?
 #' @param level what is the site level in DATIM, eg 7?
+#' @param ou_name what is the name of the country? (used for saving)
 #' @param folderpath_export what is the folderpath where you would like to save the export the file (csv)?
 #'
 #' @export
@@ -11,11 +12,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'   wpm_getcoords("cDGPF739ZZr", 7, "GIS")}
+#'   wpm_getcoords("cDGPF739ZZr", 7, "ZAF", "GIS")}
 #' 
     
 
-  wpm_getcoords <-function(organisationUnit=NA,level=NA, folderpath_export = NULL) {
+  wpm_getcoords <-function(organisationUnit = NA,level= NA, ou_name = NA, folderpath_export = NULL) {
       if ( is.na(organisationUnit) ) { organisationUnit<-getOption("organisationUnit") }
       url<-URLencode(paste0(getOption("baseurl"),"api/organisationUnits.json?&filter=path:like:",organisationUnit,"&fields=id,name,path,coordinates&paging=false&filter=level:eq:",level))
       sig<-digest::digest(url,algo='md5', serialize = FALSE)
@@ -34,13 +35,13 @@
       sites <- sites %>% 
         dplyr::mutate(coordinates = stringr::str_remove_all(coordinates, "\\[|]")) %>% 
         tidyr::separate(coordinates, c("lat", "long"), sep = ",") %>% 
-        tidyr::separate(path, into = paste0("orgunitlevel_", 0:7), sep = "/") %>% 
-        dplyr::rename(facility = name, facility_uid = id, district_uid = orgunitlevel_5) %>%
-        dplyr::mutate(snu1 = NA, psnu = NA) %>% 
-        dplyr::select(facility, facility_uid, district_uid, lat, long)
+        #tidyr::separate(path, into = paste0("orgunitlevel_", 0:7), sep = "/") %>% 
+        dplyr::rename(facility = name, facility_uid = id) %>%
+        #dplyr::mutate(snu1 = NA, psnu = NA) %>% 
+        dplyr::select(facility, facility_uid, lat, long)
       
       if(!is.null(folderpath_export)){
-        readr::write_csv(sites, file.path(folderpath_export, paste0("SBU_ZAF_sites_",lubridate::today(),"_SBU.csv")), na = "")
+        readr::write_csv(sites, file.path(folderpath_export, paste0("SBU_", ou_name, "_sites_",lubridate::today(),"_SBU.csv")), na = "")
       }
       
       return( sites )
