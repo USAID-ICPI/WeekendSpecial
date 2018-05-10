@@ -18,7 +18,6 @@ wpm_map <- function(df, folderpath_orgunits){
                              col_types = list(
                                facility = "c",
                                facility_uid = "c",
-                               district_uid = "c",
                                lat = "d",
                                long = "d")
     )
@@ -28,16 +27,16 @@ wpm_map <- function(df, folderpath_orgunits){
     #add blank columns if the coordinates file does not exist
     df <- df %>% 
       dplyr::mutate(facility_uid = NA, 
-             district_uid = NA, 
              lat = NA, 
              long = NA)
   }
   
   #arrange
   df <- df %>% 
-    dplyr::select(partner, district, district_uid, sub_district, facility, 
-           facility_uid, lat, long, provincial_lead, site_lead, indicator, 
-           date, quarter, value)
+    dplyr::select(partner, province, district, sub_district, facility, 
+                  facility_uid, lat, long, tenxten_facility, weekly_reporting, 
+                  provincial_lead, site_lead,indicator, date, quarter, value)
+ 
   
   return(df)
   
