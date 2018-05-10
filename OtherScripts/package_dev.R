@@ -9,7 +9,7 @@ build()
 
 #import site coordinates
   datimvalidation::loadSecrets(secrets = NA)
-  wpm_getcoords("cDGPF739ZZr", 7, "GIS")
+  wpm_getcoords2("cDGPF739ZZr", 7, "ZAF")
 
 
 #test
