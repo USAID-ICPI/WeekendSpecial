@@ -12,7 +12,6 @@
 wpm_targets <- function(filepath_msd, folder_output, countryname) {
 
 df <- readr::read_tsv(filepath_msd,  
-                      guess_max = 5000000,
                       col_type  = cols_only(Facility = "c",
                                            FY2018_TARGETS = "d",
                                            FacilityUID = "c",
