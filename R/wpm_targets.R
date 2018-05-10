@@ -9,19 +9,21 @@
 #' @examples 
 #' \dontrun{
 #'   wpm_targets("~/data/Burundi_msd.txt", "~/project", "Burundi")}
+
 wpm_targets <- function(filepath_msd, folder_output, countryname) {
 
   #import site MER Structured Dataset, specifying cols to keep
     df <- readr::read_tsv(filepath_msd,  
-                          col_type  = readr::cols_only(Facility = "c",
-                                                FY2018_TARGETS = "d",
+                          col_type  = readr::cols_only(
+                                                SNU1 = "c",
+                                                SNU1Uid = "c",
+                                                PSNUuid = "c",
+                                                Facility = "c",
                                                 FacilityUID = "c",
+                                                MechanismID = "c",
                                                 indicator = "c",
                                                 standardizedDisaggregate = "c",
-                                                SNU1 = "c",
-                                                PSNU = "c",
-                                                Community = "c",
-                                                CommunityUID = "c"))%>% 
+                                                FY2018_TARGETS = "d"))%>% 
           dplyr::rename_all(~ tolower(.))
   
   #munge
@@ -36,9 +38,17 @@ wpm_targets <- function(filepath_msd, folder_output, countryname) {
       #summarize to catch any targets on multiple rows
       dplyr::group_by_if(is.character) %>% 
       dplyr::summarise(fy2018_targets = sum(fy2018_targets)) %>% 
-      dplyr::ungroup()
-  
-  readr::write_csv(df, file.path(folderpath_output, paste0(countryname, "_fy18_site_targets.csv")), na="")
+      dplyr::ungroup() %>%
+      #remove any zero targets
+      dplyr::filter(fy2018_targets != 0)
+    
+  #generate a weekly target
+    df <- df %>% 
+      dplyr::mutate(target_wkly = fy2018_targets / 52) %>% 
+      dplyr::select(-fy2018_targets)
+      
+  #export as csv  
+    readr::write_csv(df, file.path(folderpath_output, paste0(countryname, "_fy18_site_targets.csv")), na="")
     
   }
   
