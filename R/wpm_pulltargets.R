@@ -48,7 +48,7 @@ wpm_pulltargets <- function(filepath_msd, folder_output, countryname) {
       dplyr::select(-fy2018_targets)
       
   #export as csv  
-    readr::write_csv(df, file.path(folderpath_output, paste0(countryname, "_fy18_site_targets.csv")), na="")
+    readr::write_csv(df, file.path(folder_output, paste0(countryname, "_fy18_site_targets.csv")), na="")
     
   }
   
