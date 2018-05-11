@@ -36,9 +36,9 @@
         dplyr::mutate(coordinates = stringr::str_remove_all(coordinates, "\\[|]")) %>% 
         tidyr::separate(coordinates, c("lat", "long"), sep = ",") %>% 
         #tidyr::separate(path, into = paste0("orgunitlevel_", 0:7), sep = "/") %>% 
-        dplyr::rename(facility = name, facility_uid = id) %>%
+        dplyr::rename(facility = name, facilityuid = id) %>%
         #dplyr::mutate(snu1 = NA, psnu = NA) %>% 
-        dplyr::select(facility, facility_uid, lat, long)
+        dplyr::select(facility, facilityuid, lat, long)
       
       if(!is.null(folderpath_export)){
         readr::write_csv(sites, file.path(folderpath_export, paste0("SBU_", ou_name, "_sites_",lubridate::today(),"_SBU.csv")), na = "")

@@ -17,7 +17,7 @@ wpm_map <- function(df, folderpath_orgunits){
     coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*sites*.csv")),
                              col_types = list(
                                facility = "c",
-                               facility_uid = "c",
+                               facilityuid = "c",
                                lat = "d",
                                long = "d")
     )
