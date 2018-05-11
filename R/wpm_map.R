@@ -14,7 +14,7 @@ wpm_map <- function(df, folderpath_orgunits){
   
   if(!is.null(folderpath_orgunits)){
     #import coordinates file (explicit for silent read in)
-    coord <- readr::read_csv(Sys.glob(file.path("GIS", "*sites*.csv")),
+    coord <- readr::read_csv(Sys.glob(file.path(folderpath_orgunits, "*sites*.csv")),
                              col_types = list(
                                facility = "c",
                                facility_uid = "c",
