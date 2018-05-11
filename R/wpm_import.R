@@ -54,4 +54,16 @@ wpm_import <- function(filepath, sheet_name){
       dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
       dplyr::filter(value != 0)
   
+  #standardize indicator names
+    df_long <- df_long %>% 
+      dplyr::mutate(indicator = dplyr::case_when(
+        indicator == "Direct HTS_POS"                               ~ "HTS_TST_POS",
+        indicator == "Proxy TX_NEW"                                 ~ "TX_NEW",
+        indicator == "IPT Initiation"                               ~ "IPT",
+        indicator %in% c("Early Missed Appointment", "EarlyMissed") ~ "APPT_EARLY_MISSED",
+        indicator == "Proxy HTS_POS"                                ~ "HTS_TST_POS_PROXY",
+        indicator == "Direct HTS_TST_ART"                           ~ "HTS_TST_ART",
+        indicator == "Unconfirmed Loss to Follow Up"                ~ "LTFU_UNCONFIRMED",
+        indicator == "Waiting for ART"                              ~ "ART_WAITING")
+      )
 }
