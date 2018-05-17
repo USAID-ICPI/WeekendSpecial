@@ -28,6 +28,7 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
   
   #add weekly targets
     df_full_weekly <- wpm_addtargets(df_full_weekly, folderpath_targets)
+    
   #export
     if(!is.null(folderpath_output)){
     readr::write_csv(df_full_weekly, 
