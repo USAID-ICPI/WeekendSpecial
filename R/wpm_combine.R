@@ -21,7 +21,7 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
     df_full_weekly <- purrr::map2_dfr(df_full_list$path, df_full_list$sheet_name,
                                    ~ wpm_import(.x, .y))
   #add mechanism id
-    df_full_weekly <- wpm_addmechid(df_weekly_full)
+    df_full_weekly <- wpm_addmechid(df_full_weekly)
       
   #add coordinates
     df_full_weekly <- wpm_map(df_full_weekly, folderpath_sitecoords)
