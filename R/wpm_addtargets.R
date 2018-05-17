@@ -20,18 +20,19 @@ wpm_addtargets <- function(df, folderpath_targets){
                                snu1uid = "c",
                                psnuuid = "c",
                                mechanismid = "c",
+                               facilityuid = "c",
                                facility = "c",
                                indicator = "c",
                                target_wkly = "d")
                               )
     #clean up df prior to merge (remove dups)
       df <- df %>% 
-        dplyr::select(-province) %>% 
+        dplyr::select(-province,  -facilityuid) %>% 
         dplyr::rename(psnu = district,
                       community = sub_district)
   
     #merge onto main df
-      df <- dplyr::left_join(df, coord, by = c("facility", "mechanismid", "indicator"))
+      df <- dplyr::left_join(df, targets, by = c("facility", "mechanismid", "indicator"))
       
     } else {
       #add blank columns if the coordinates file does not exist
