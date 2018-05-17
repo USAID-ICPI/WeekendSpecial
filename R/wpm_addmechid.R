@@ -11,7 +11,7 @@
 
 wpm_addmechid <- function(df){
   df <- df %>% 
-  mutate(mechanismid = case_when(
+  dplyr::mutate(mechanismid = case_when(
     partner == "ANOVA"  ~ "11111",
     partner == "BRHC"   ~ "11111",
     partner == "FDP"    ~ "11111",
