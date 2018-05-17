@@ -2,7 +2,7 @@
 #'
 #' @param df which df to map onto?
 #'
-#' @importFrom dplyr %.%
+#' @importFrom dplyr %>%
 #' @export
 #'
 #' @examples
