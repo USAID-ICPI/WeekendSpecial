@@ -22,7 +22,7 @@ wpm_addweek <- function(df, date_var, fy_start = "2017-10-02"){
     fy_start <- lubridate::ymd(fy_start)
   
   #figure out location for ordering
-    loc <- match("date", names(df)) + 1 #TODO - need to change "date" to date_var
+    loc <- match("date", names(df)) #TODO - need to change "date" to date_var
     
   #add blank column for ordered placeholder
     df <- df %>% 
@@ -30,7 +30,7 @@ wpm_addweek <- function(df, date_var, fy_start = "2017-10-02"){
     
   #add date
     df <- df %>% 
-      dplyr::mutate(fy_week = (!!date_var - fy_start)/7 + 1)
+      dplyr::mutate(fy_week = as.integer((!!date_var - fy_start)/7 + 1))
     
   return(df)
   
