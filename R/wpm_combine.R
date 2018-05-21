@@ -20,12 +20,21 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
   #combine all data into one df
     df_full_weekly <- purrr::map2_dfr(df_full_list$path, df_full_list$sheet_name,
                                    ~ wpm_import(.x, .y))
+  #create week
+    df_full_weekly <- wpm_addweek(df_full_weekly, date)
+    
   #add mechanism id
     df_full_weekly <- wpm_addmechid(df_full_weekly)
       
   #add coordinates
     df_full_weekly <- wpm_map(df_full_weekly, folderpath_sitecoords)
   
+  #arrange
+    df_full_weekly <- df_full_weekly %>% 
+      dplyr::select(mechanismid, partner, province, district, sub_district, facility, 
+                    facilityuid, lat, long, tenxten_facility, weekly_reporting, 
+                    provincial_lead, site_lead,indicator, date, fy_week, quarter, value)
+    
   #add weekly targets
     df_full_weekly <- wpm_addtargets(df_full_weekly, folderpath_targets)
     
