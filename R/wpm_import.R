@@ -46,12 +46,21 @@ wpm_import <- function(filepath, sheet_name){
     df_long <- df %>% 
       tidyr::gather(pd, value, -cols_full, na.rm = TRUE)
     
-  #covert Excel date (origin - 1899-12-30) to readable date & add variable name (from sheetname)
+  #ensure values are double and create indicator from sheet name
     df_long <- df_long %>% 
       dplyr::mutate(value = as.double(value),
-                    indicator = sheet_name, 
-                    date = lubridate::as_date(as.integer(pd), origin = "1899-12-30"),
-                    date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
+                    indicator = sheet_name)
+  #covert Excel date (origin - 1899-12-30) to readable date; different for CDC and USAID
+    if(stringr::str_detect(filepath,"AURUM|HST|THC")){
+      df_long <- df_long %>% 
+        dplyr::mutate(date = lubridate::dmy(pd))
+    } else {
+      df_long <- df_long %>% 
+        dplyr::mutate(date = lubridate::as_date(as.integer(pd), origin = "1899-12-30"))
+    }
+  #additional date vars
+    df_long <- df_long %>% 
+      dplyr::mutate(date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
                     quarter = paste0("FY", stringr::str_sub(date2, start = 3, end = 4),"Q", stringr::str_sub(date2, start = -1))) %>% 
       dplyr::select(-pd, -date2) %>% #remove intermediary variables
       dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
