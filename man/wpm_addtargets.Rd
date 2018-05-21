@@ -14,7 +14,3 @@ wpm_addtargets(df, folderpath_targets)
 \description{
 Merge targets onto dataframe
 }
-\examples{
-#' \dontrun{
-  df_weekly <- wpm_addtargets(df_weekly_full, "~/WPM")}
-}
