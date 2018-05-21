@@ -32,7 +32,10 @@ wpm_import <- function(filepath, sheet_name){
           dplyr::mutate(!!c := as.character(NA))
       }
     }
-  
+  #for USAID partners, add YES to weekly_reporting for all
+    df <- df %>% 
+      dplyr::mutate(weekly_reporting = ifelse(stringr::str_detect(filepath,"AURUM|HST|THC"),
+                                              weekly_reporting, "YES"))
   #rename 10x10 facility column (CDC)
     df <- dplyr::rename(df, tenxten_facility = `10x10_facility`)
   
