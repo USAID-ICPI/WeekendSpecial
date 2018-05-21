@@ -2,6 +2,7 @@
 
 export(wpm_addmechid)
 export(wpm_addtargets)
+export(wpm_addweek)
 export(wpm_combine)
 export(wpm_filerefresh)
 export(wpm_getcoords)
