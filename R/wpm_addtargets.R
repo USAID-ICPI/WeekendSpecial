@@ -25,6 +25,10 @@ wpm_addtargets <- function(df, folderpath_targets){
                                indicator = "c",
                                target_wkly = "d")
                               )
+    #make TX_CURR target cumulative
+      df <- df %>% 
+        dplyr::mutate(target_wkly = ifelse(indicator == "TX_CURR"), fy_week * target_wkly, target_wkly)
+      
     #clean up df prior to merge (remove dups)
       df <- df %>% 
         dplyr::select(-province,  -facilityuid) %>% 
