@@ -12,6 +12,11 @@
 
 wpm_addtargets <- function(df, folderpath_targets){
   
+  #clean up prior to merge
+  df <- df %>% 
+    dplyr::rename(psnu = district,
+                  community = sub_district)
+  
   if(!is.null(folderpath_targets)){
     #import target file (explicit for silent read in)
     targets <- readr::read_csv(Sys.glob(file.path(folderpath_targets, "*targets*.csv")),
@@ -25,24 +30,21 @@ wpm_addtargets <- function(df, folderpath_targets){
                                indicator = "c",
                                target_wkly = "d")
                               )
-    #make TX_CURR target cumulative
-      df <- df %>% 
-        dplyr::mutate(target_wkly = ifelse(indicator == "TX_CURR"), fy_week * target_wkly, target_wkly)
       
     #clean up df prior to merge (remove dups)
       df <- df %>% 
-        dplyr::select(-province,  -facilityuid) %>% 
-        dplyr::rename(psnu = district,
-                      community = sub_district)
+        dplyr::select(-province,  -facilityuid)
   
     #merge onto main df
       df <- dplyr::left_join(df, targets, by = c("facility", "mechanismid", "indicator"))
+    
+    #make TX_CURR target cumulative
+      df <- df %>% 
+        dplyr::mutate(target_wkly = ifelse(indicator == "TX_CURR", fy_week * target_wkly, target_wkly))
       
     } else {
-      #add blank columns if the coordinates file does not exist
+    #add blank columns if the coordinates file does not exist
       df <- df %>% 
-        dplyr::rename(psnu = district,
-                      community = sub_district) %>% 
         dplyr::mutate(snu1uid = NA,
                       psnuuid = NA,
                       target_wkly = NA)
