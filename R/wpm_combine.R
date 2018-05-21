@@ -28,21 +28,21 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
       
   #add coordinates
     df_full_weekly <- wpm_map(df_full_weekly, folderpath_sitecoords)
-  
-  #arrange
-    df_full_weekly <- df_full_weekly %>% 
-      dplyr::select(mechanismid, partner, province, district, sub_district, facility, 
-                    facilityuid, lat, long, tenxten_facility, weekly_reporting, 
-                    provincial_lead, site_lead,indicator, date, fy_week, quarter, value)
     
   #add weekly targets
     df_full_weekly <- wpm_addtargets(df_full_weekly, folderpath_targets)
+  
+  #arrange
+    df_full_weekly <- df_full_weekly %>% 
+      dplyr::select(mechanismid, partner, snu1, snu1uid, district, psnu, psnuuid, facility, 
+                    facilityuid, lat, long, tenxten_facility, weekly_reporting, 
+                    provincial_lead, site_lead,indicator, date, fy_week, quarter, value, target_wkly)
     
   #export
     if(!is.null(folderpath_output)){
     readr::write_csv(df_full_weekly, 
                      file.path(folderpath_output, 
-                               paste0("ZAF-USAID_Weekly-Programmme-Monitoring_", 
+                               paste0("ZAF-Weekly-Programmme-Monitoring_", 
                                lubridate::today(), ".csv")), 
                      na = "")
     } else {
