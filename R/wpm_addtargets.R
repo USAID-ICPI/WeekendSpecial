@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' #' \dontrun{
+#' \dontrun{
 #'   df_weekly <- wpm_addtargets(df_weekly_full, "~/WPM")}
 
 wpm_addtargets <- function(df, folderpath_targets){
