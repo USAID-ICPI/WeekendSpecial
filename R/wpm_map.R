@@ -30,14 +30,7 @@ wpm_map <- function(df, folderpath_orgunits){
              lat = NA, 
              long = NA)
   }
-  
-  #arrange
-  df <- df %>% 
-    dplyr::select(mechanismid, partner, province, district, sub_district, facility, 
-                  facilityuid, lat, long, tenxten_facility, weekly_reporting, 
-                  provincial_lead, site_lead,indicator, date, quarter, value)
- 
-  
+
   return(df)
   
 }
