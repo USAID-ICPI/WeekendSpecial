@@ -34,3 +34,7 @@ build()
 df <- wpm_combine("RawData", "GIS", "Output")
 
 
+
+
+
+wpm_combine()
