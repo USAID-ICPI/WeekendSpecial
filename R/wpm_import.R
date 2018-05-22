@@ -11,41 +11,71 @@
 
 wpm_import <- function(filepath, sheet_name){
   
+  #if CDC partner workbook, need to skip first 6 rows
+    if(stringr::str_detect(filepath,"AURUM|HST|THC")){
+      skip_n <- 6
+    } else{
+      skip_n <- 0
+    }
+    
   #import sheet from file
-  df <- readxl::read_excel(filepath, sheet = sheet_name) %>% 
-    dplyr::rename_all(~tolower(.)) %>%   #covert variables to lower case
-    dplyr::rename_all(~stringr::str_replace_all(., "\\s|-","_")) #removes spaces and covert "-" to "_"
+    df <- readxl::read_excel(filepath, sheet = sheet_name, skip = skip_n) %>% 
+      dplyr::rename_all(~tolower(.)) %>%   #covert variables to lower case
+      dplyr::rename_all(~stringr::str_replace_all(., "\\s|-","_")) #removes spaces and covert "-" to "_"
   
   
   #add missing columns if they don't already exist (differences between USAID and CDC)
-  cols <- c("province", "provincial_lead", "site_lead", "10x10_facility", "weekly_reporting", "indicator")
-  for (c in cols) {
-    if(!c %in% colnames(df))
-    {
-      df <- df %>% 
-        dplyr::mutate(!!c := as.character(NA))
+    cols <- c("province", "provincial_lead", "site_lead", "10x10_facility", "weekly_reporting", "indicator")
+    for (c in cols) {
+      if(!c %in% colnames(df)){
+        df <- df %>% 
+          dplyr::mutate(!!c := as.character(NA))
+      }
     }
-  }
-  
+  #for USAID partners, add YES to weekly_reporting for all
+    df <- df %>% 
+      dplyr::mutate(weekly_reporting = ifelse(stringr::str_detect(filepath,"AURUM|HST|THC"),
+                                              weekly_reporting, "YES"))
   #rename 10x10 facility column (CDC)
-  df <- dplyr::rename(df, tenxten_facility = `10x10_facility`)
+    df <- dplyr::rename(df, tenxten_facility = `10x10_facility`)
   
   #reshape long to make tidy
-  cols_full <- c("partner", "province", "district", "sub_district", "facility", "tenxten_facility", 
-                 "weekly_reporting", "provincial_lead", "site_lead","indicator")
-  df <- dplyr::select(df, cols_full, dplyr::everything()) #arrange
-  df_long <- df %>% 
-    tidyr::gather(pd, value, -cols_full, na.rm = TRUE)
+    cols_full <- c("partner", "province", "district", "sub_district", "facility", "tenxten_facility", 
+                   "weekly_reporting", "provincial_lead", "site_lead","indicator")
+    df <- dplyr::select(df, cols_full, dplyr::everything()) #arrange
+    df_long <- df %>% 
+      tidyr::gather(pd, value, -cols_full, na.rm = TRUE)
+    
+  #ensure values are double and create indicator from sheet name
+    df_long <- df_long %>% 
+      dplyr::mutate(value = as.double(value),
+                    indicator = sheet_name)
+  #covert Excel date (origin - 1899-12-30) to readable date; different for CDC and USAID
+    if(stringr::str_detect(filepath,"AURUM|HST|THC")){
+      df_long <- df_long %>% 
+        dplyr::mutate(date = lubridate::dmy(pd))
+    } else {
+      df_long <- df_long %>% 
+        dplyr::mutate(date = lubridate::as_date(as.integer(pd), origin = "1899-12-30"))
+    }
+  #additional date vars
+    df_long <- df_long %>% 
+      dplyr::mutate(date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
+                    quarter = paste0("FY", stringr::str_sub(date2, start = 3, end = 4),"Q", stringr::str_sub(date2, start = -1))) %>% 
+      dplyr::select(-pd, -date2) %>% #remove intermediary variables
+      dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
+      dplyr::filter(value != 0)
   
-  #covert Excel date (origin - 1899-12-30) to readable date & add variable name (from sheetname)
-  df_long <- df_long %>% 
-    dplyr::mutate(value = as.double(value),
-                  indicator = sheet_name, 
-                  date = lubridate::as_date(as.integer(pd), origin = "1899-12-30"),
-                  date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
-                  quarter = paste0("FY", stringr::str_sub(date2, start = 3, end = 4),"Q", stringr::str_sub(date2, start = -1))) %>% 
-    dplyr::select(-pd, -date2) %>% #remove intermediary variables
-    dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
-    dplyr::filter(value != 0)
-  
+  #standardize indicator names
+    df_long <- df_long %>% 
+      dplyr::mutate(indicator = dplyr::case_when(
+        indicator == "Direct HTS_POS"                               ~ "HTS_TST_POS",
+        indicator == "Proxy TX_NEW"                                 ~ "TX_NEW",
+        indicator == "IPT Initiation"                               ~ "IPT",
+        indicator %in% c("Early Missed Appointment", "EarlyMissed") ~ "APPT_EARLY_MISSED",
+        indicator == "Proxy HTS_POS"                                ~ "HTS_TST_POS_PROXY",
+        indicator == "Direct HTS_TST_ART"                           ~ "HTS_TST_ART",
+        indicator == "Unconfirmed Loss to Follow Up"                ~ "LTFU_UNCONFIRMED",
+        indicator == "Waiting for ART"                              ~ "ART_WAITING")
+      )
 }
