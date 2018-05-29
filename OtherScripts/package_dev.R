@@ -39,7 +39,7 @@ build()
 df <- wpm_combine("RawData", "GIS", "Output")
 
 #export
-wpm_combine("RawData", "GIS", "Output", "Output")
+df <- wpm_combine("RawData", "GIS", "Output", "Output")
 
 
 
