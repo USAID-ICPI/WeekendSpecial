@@ -25,25 +25,34 @@ wpm_import <- function(filepath, sheet_name){
       dplyr::rename_all(~tolower(.)) %>%   #covert variables to lower case
       dplyr::rename_all(~stringr::str_replace_all(., "\\s|-","_")) #removes spaces and covert "-" to "_"
   
-  
+  #covert weekly/monlty reporting into same variable (CDC)
+    if("mthly_reporting" %in% colnames(df)){
+      df <- df %>% 
+        dplyr::rename(reporting_freq = mthly_reporting) %>% 
+        dplyr::mutate(reporting_freq = ifelse(reporting_freq == "YES", "monthly", reporting_freq))
+    } else if("weekly_reporting" %in% colnames(df)){
+      df <- df %>% 
+        dplyr::rename(reporting_freq = weekly_reporting) %>% 
+        dplyr::mutate(reporting_freq = ifelse(reporting_freq == "YES", "weekly", reporting_freq))
+    }
   #add missing columns if they don't already exist (differences between USAID and CDC)
-    cols <- c("province", "provincial_lead", "site_lead", "10x10_facility", "weekly_reporting", "indicator")
+    cols <- c("province", "provincial_lead", "site_lead", "10x10_facility", "reporting_freq", "indicator")
     for (c in cols) {
       if(!c %in% colnames(df)){
         df <- df %>% 
           dplyr::mutate(!!c := as.character(NA))
       }
     }
-  #for USAID partners, add YES to weekly_reporting for all
+  #for USAID partners, add weekly to reporting_freq for all
     df <- df %>% 
-      dplyr::mutate(weekly_reporting = ifelse(stringr::str_detect(filepath,"AURUM|HST|THC"),
-                                              weekly_reporting, "YES"))
+      dplyr::mutate(reporting_freq = ifelse(stringr::str_detect(filepath,"AURUM|HST|THC"),
+                                              reporting_freq, "weekly"))
   #rename 10x10 facility column (CDC)
     df <- dplyr::rename(df, tenxten_facility = `10x10_facility`)
   
   #reshape long to make tidy
     cols_full <- c("partner", "province", "district", "sub_district", "facility", "tenxten_facility", 
-                   "weekly_reporting", "provincial_lead", "site_lead","indicator")
+                   "reporting_freq", "provincial_lead", "site_lead","indicator")
     df <- dplyr::select(df, cols_full, dplyr::everything()) #arrange
     df_long <- df %>% 
       tidyr::gather(pd, value, -cols_full, na.rm = TRUE)
