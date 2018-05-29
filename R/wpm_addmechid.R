@@ -20,7 +20,7 @@ wpm_addmechid <- function(df){
     partner == "RTC"    ~ "11111",
     partner == "WRHI"   ~ "11111",
     partner == "AURUM"  ~ "18484",
-    partner == "HST"    ~ "11111",
-    partner == "THC"    ~ "11111")
+    partner == "HST"    ~ "18481",
+    partner == "THC"    ~ "18482")
   )
 }
