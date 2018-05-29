@@ -23,15 +23,22 @@ build()
   wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180510T140330Z-001.zip",
                   "C:/Users/achafetz/Documents/GitHub/WeekendSpecial/RawData")
   
-  filepath <- df_full_list$path[1]
-  sheet_name <- df_full_list$sheet_name[1]
+  s <- 5
+  filepath <- df_full_list$path[s]
+  sheet_name <- df_full_list$sheet_name[s]
+  
+  df <-  wpm_import(filepath, sheet_name)
+  
   
   list <- wpm_identify("RawData")
    
 
 
-
+#check
 df <- wpm_combine("RawData", "GIS", "Output")
+
+#export
+wpm_combine("RawData", "GIS", "Output", "Output")
 
 
 
