@@ -12,8 +12,10 @@
 wpm_import <- function(filepath, sheet_name){
   
   #if CDC partner workbook, need to skip first 6 rows
-    if(stringr::str_detect(filepath,"AURUM|HST|THC")){
+    if(stringr::str_detect(filepath,"AURUM|HST")){
       skip_n <- 6
+    } else if(stringr::str_detect(filepath,"THC")) {
+      skip_n <- 1
     } else{
       skip_n <- 0
     }
@@ -76,6 +78,7 @@ wpm_import <- function(filepath, sheet_name){
         indicator == "Proxy HTS_POS"                                ~ "HTS_TST_POS_PROXY",
         indicator == "Direct HTS_TST_ART"                           ~ "HTS_TST_ART",
         indicator == "Unconfirmed Loss to Follow Up"                ~ "LTFU_UNCONFIRMED",
-        indicator == "Waiting for ART"                              ~ "ART_WAITING")
+        indicator == "Waiting for ART"                              ~ "ART_WAITING",
+        TRUE                                                        ~ indicator)
       )
 }
