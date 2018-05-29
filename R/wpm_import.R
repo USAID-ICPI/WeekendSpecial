@@ -71,8 +71,7 @@ wpm_import <- function(filepath, sheet_name){
     }
   #additional date vars
     df_long <- df_long %>% 
-      dplyr::mutate(date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
-                    quarter = paste0("FY", stringr::str_sub(date2, start = 3, end = 4),"Q", stringr::str_sub(date2, start = -1))) %>% 
+      dplyr::mutate(date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10))) %>% 
       dplyr::select(-pd, -date2) %>% #remove intermediary variables
       dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
       dplyr::filter(value != 0)
@@ -80,14 +79,14 @@ wpm_import <- function(filepath, sheet_name){
   #standardize indicator names
     df_long <- df_long %>% 
       dplyr::mutate(indicator = dplyr::case_when(
-        indicator == "Direct HTS_POS"                               ~ "HTS_TST_POS",
-        indicator == "Proxy TX_NEW"                                 ~ "TX_NEW",
-        indicator == "IPT Initiation"                               ~ "IPT",
-        indicator %in% c("Early Missed Appointment", "EarlyMissed") ~ "APPT_EARLY_MISSED",
-        indicator == "Proxy HTS_POS"                                ~ "HTS_TST_POS_PROXY",
-        indicator == "Direct HTS_TST_ART"                           ~ "HTS_TST_ART",
-        indicator == "Unconfirmed Loss to Follow Up"                ~ "LTFU_UNCONFIRMED",
-        indicator == "Waiting for ART"                              ~ "ART_WAITING",
-        TRUE                                                        ~ indicator)
+        indicator == "Direct HTS_POS"                                                       ~ "HTS_TST_POS",
+        indicator == "Proxy TX_NEW"                                                         ~ "TX_NEW",
+        indicator %in% c("IPT Initiation", "IPT initiations")                               ~ "IPT",
+        indicator %in% c("Early Missed Appointment", "EarlyMissed", "APPT_EARLY_MISSED")    ~ "APPT_EARLY_MISSED",
+        indicator == "Proxy HTS_POS"                                                        ~ "HTS_TST_POS_PROXY",
+        indicator == "Direct HTS_TST_ART"                                                   ~ "HTS_TST_ART",
+        indicator %in% c("Unconfirmed Loss to Follow Up", "Unconfirmed loss to follow up")  ~ "LTFU_UNCONFIRMED",
+        indicator == "Waiting for ART"                                                      ~ "ART_WAITING",
+        TRUE                                                                                ~ indicator)
       )
 }

@@ -1,9 +1,10 @@
 #Package development
 
 library(devtools)
+load_all()
 
 document()
-load_all()
+
 build()
 
 
@@ -20,7 +21,7 @@ build()
   
   library(magrittr)
   
-  wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180510T140330Z-001.zip",
+  wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180529T154440Z-001.zip",
                   "C:/Users/achafetz/Documents/GitHub/WeekendSpecial/RawData")
   
   s <- 5
