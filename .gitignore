@@ -6,6 +6,12 @@
 #data
 *.xlsx
 *.csv
+*.zip
+
+#Tableau
+*.twbx
+*.twb
+
 WeekendSpecial.Rproj
 
 #GIS information
