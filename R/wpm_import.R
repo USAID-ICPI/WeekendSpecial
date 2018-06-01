@@ -80,11 +80,11 @@ wpm_import <- function(filepath, sheet_name){
   #standardize indicator names
     df_long <- df_long %>% 
       dplyr::mutate(indicator = dplyr::case_when(
-        indicator == "Direct HTS_POS"                                                            ~ "HTS_TST_POS",
+        indicator == "Proxy HTS_POS"                                                             ~ "HTS_TST_POS",
         indicator == "Proxy TX_NEW"                                                              ~ "TX_NEW",
         indicator %in% c("IPT Initiation", "IPT initiations")                                    ~ "IPT",
         indicator %in% c("Early Missed Appointment", "EarlyMissed", "Early missed appointment")  ~ "APPT_EARLY_MISSED",
-        indicator == "Proxy HTS_POS"                                                             ~ "HTS_TST_POS_PROXY",
+        indicator == "Direct HTS_POS"                                                            ~ "HTS_TST_POS_DIRECT",
         indicator == "Direct HTS_TST_ART"                                                        ~ "HTS_TST_ART",
         indicator %in% c("Unconfirmed Loss to Follow Up", "Unconfirmed loss to follow up")       ~ "LTFU_UNCONFIRMED",
         indicator == "Waiting for ART"                                                           ~ "ART_WAITING",
