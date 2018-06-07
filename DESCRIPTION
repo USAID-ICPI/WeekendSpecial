@@ -10,5 +10,5 @@ License:  CC-BY-SA-4.0
 Imports: dplyr, tidyr, readr, readxl, stringr, purrr, fs
 Encoding: UTF-8
 LazyData: true
-BugReports: https://github.com/USAID-ICPI/WeekendSpecial/issues/15
+BugReports: https://github.com/USAID-ICPI/WeekendSpecial/issues/
 RoxygenNote: 6.0.1
