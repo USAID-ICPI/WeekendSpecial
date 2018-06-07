@@ -24,7 +24,7 @@ build()
   wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180529T154440Z-001.zip",
                   "C:/Users/achafetz/Documents/GitHub/WeekendSpecial/RawData")
   
-  s <- 5
+  s <- 1
   filepath <- df_full_list$path[s]
   sheet_name <- df_full_list$sheet_name[s]
   

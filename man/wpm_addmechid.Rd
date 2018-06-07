@@ -2,7 +2,7 @@
 % Please edit documentation in R/wpm_addmechid.R
 \name{wpm_addmechid}
 \alias{wpm_addmechid}
-\title{Map mechanism ids onto partner names}
+\title{Map mechanism ids & agencies onto partner names}
 \usage{
 wpm_addmechid(df)
 }
@@ -10,7 +10,7 @@ wpm_addmechid(df)
 \item{df}{which df to map onto?}
 }
 \description{
-Map mechanism ids onto partner names
+Map mechanism ids & agencies onto partner names
 }
 \examples{
 \dontrun{
