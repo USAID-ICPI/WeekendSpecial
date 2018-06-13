@@ -21,7 +21,7 @@ build()
   
   library(magrittr)
   
-  wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180529T154440Z-001.zip",
+  wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180613T145112Z-001.zip",
                   "C:/Users/achafetz/Documents/GitHub/WeekendSpecial/RawData")
   
   s <- 1

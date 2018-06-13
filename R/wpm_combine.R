@@ -36,7 +36,7 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
     df_full_weekly <- df_full_weekly %>% 
       dplyr::select(fundingagency, mechanismid, partner, snu1, snu1uid, psnu, psnuuid, community, facility, 
                     facilityuid, lat, long, tenxten_facility, reporting_freq, 
-                    provincial_lead, site_lead,indicator, date, fy_week, quarter, value, target_wkly)
+                    provincial_lead, site_lead,indicator, date, month, fy_week, quarter, value, target_wkly)
     
   #export
     if(!is.null(folderpath_output)){
