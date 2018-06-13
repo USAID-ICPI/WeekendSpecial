@@ -42,8 +42,7 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
     if(!is.null(folderpath_output)){
     readr::write_csv(df_full_weekly, 
                      file.path(folderpath_output, 
-                               paste0("ZAF-Weekly-Programmme-Monitoring_", 
-                               lubridate::today(), ".csv")), 
+                               "ZAF-Weekly-Programmme-Monitoring.csv"), 
                      na = "")
     } else {
       return(df_full_weekly)
