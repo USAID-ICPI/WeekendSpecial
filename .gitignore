@@ -11,6 +11,7 @@
 #Tableau
 *.twbx
 *.twb
+*.twbr
 
 WeekendSpecial.Rproj
 
