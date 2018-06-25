@@ -23,7 +23,7 @@ wpm_identify <- function(folderpath){
     #unpack list so all one df
     tidyr::unnest() %>% 
     #filter to keep only only  
-    dplyr::filter(stringr::str_detect(sheet_name, "HTS|Early|IPT|Waiting|nconfirmed|TX_CURR|TX_NEW"))
+    dplyr::filter(stringr::str_detect(sheet_name, "HTS|Early|IPT|Waiting|nconfirmed|TX_CURR|TX_NEW|20"))
   
   return(df)
   
