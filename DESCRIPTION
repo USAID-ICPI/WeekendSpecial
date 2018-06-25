@@ -1,6 +1,6 @@
 Package: WeekendSpecial
 Title: Import and Combine Weekly Program Data into Tidy Dataset
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(
       person("Aaron", "Chafetz", email = "achafetz@usaid.gov", role = c("aut", "cre")),
       person("Josh", "Davis", email = "jodavis@usaid.gov", role = "ctb"))

@@ -21,8 +21,16 @@ build()
   
   library(magrittr)
   
-  wpm_filerefresh("C:/Users/achafetz/Downloads/drive-download-20180613T145112Z-001.zip",
+  if(length(dir("C:/Users/achafetz/Downloads/", pattern = "drive-download*"))==1){
+    dwnld_file <- dir("C:/Users/achafetz/Downloads/", pattern = "drive-download*", full.names = TRUE)
+  } else {
+    paste("There were ", length(dir("C:/Users/achafetz/Downloads/", pattern = "drive-download*")), "found. dwnld_file not created ")
+  }
+  
+  wpm_filerefresh(dwnld_file,
                   "C:/Users/achafetz/Documents/GitHub/WeekendSpecial/RawData")
+  rm(dwnld_file)
+  
   
   s <- 1
   filepath <- df_full_list$path[s]
@@ -40,7 +48,6 @@ df <- wpm_combine("RawData", "GIS", "Output")
 
 #export
 df <- wpm_combine("RawData", "GIS", "Output", "Output")
-
 
 
 
