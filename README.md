@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.org/USAID-ICPI/WeekendSpecial.svg?branch=master)](https://travis-ci.org/USAID-ICPI/WeekendSpecial)
 # Project Weekend Special
+
+[![Build Status](https://travis-ci.org/USAID-ICPI/WeekendSpecial.svg?branch=master)](https://travis-ci.org/USAID-ICPI/WeekendSpecial)
 
 Purpose: Work with the South Africa team to organize, structure, analyze, and visualize the weekly data coming in from partners.
 
