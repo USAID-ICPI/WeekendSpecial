@@ -34,7 +34,7 @@
       }
       sites <- sites %>% 
         dplyr::mutate(coordinates = stringr::str_remove_all(coordinates, "\\[|]")) %>% 
-        tidyr::separate(coordinates, c("long", "lat"), sep = ",") %>% 
+        tidyr::separate(coordinates, c("longitude", "latitude"), sep = ",") %>% 
         #tidyr::separate(path, into = paste0("orgunitlevel_", 0:7), sep = "/") %>% 
         dplyr::rename(facility = name, facilityuid = id) %>%
         #dplyr::mutate(snu1 = NA, psnu = NA) %>% 
