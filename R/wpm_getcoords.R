@@ -10,6 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
+#'   datimvalidation::loadSecrets()
 #'   wpm_getcoords("cDGPF739ZZr", "GIS")}
 #' 
     

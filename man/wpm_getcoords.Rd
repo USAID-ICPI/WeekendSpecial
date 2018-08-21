@@ -16,6 +16,7 @@ Adapted from J.Pickering's DATIM Vaidation package - datimvalidation::getOrganis
 }
 \examples{
 \dontrun{
+  datimvalidation::loadSecrets()
   wpm_getcoords("cDGPF739ZZr", "GIS")}
 
 }
