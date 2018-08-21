@@ -34,7 +34,7 @@
     #create org unit level column names
       cols <- paste0("lvl_",seq(1,max(stringr::str_count(sites$path,"/"))))
     #split out path into each org unit  
-      suppressMessages(
+      suppressWarnings(
       ou_structure <- sites %>%
         dplyr::mutate(path = stringr::str_remove(path, "^/")) %>% #remove starting / in path
         tidyr::separate(path, into=cols, sep="/", extra = "merge") %>% 
@@ -68,7 +68,7 @@
                       facilityuid = id)
       
      #pull ou OU name for saving 
-      ou_name <- unique(ou_structure$lvl_3) %>% 
+      ou_name <- unique(ou_structure$operatingunit) %>% 
                  stringr::str_remove_all(., "[:space:]|'")
       
      #separate out lat/long coordinates   
