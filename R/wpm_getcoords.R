@@ -15,11 +15,16 @@
     
 
   wpm_getcoords <-function(organisationUnit = NA, folderpath_export = NULL) {
+    
+    #url
+      baseurl<-"https://datim.org/"
+      url<-paste0(baseurl,"api/organisationUnits?filter=path:like:",organisationUnit, "&fields=id,name,path,coordinates&paging=false")
+      
     #API pull from DATIM     
       sites <-URLencode(url) %>%
         httr::GET(httr::timeout(60)
                   #, httr::authenticate(myuser,mypwd())
-        ) %>% 
+                  ) %>% 
         httr::content("text") %>% 
         jsonlite::fromJSON(flatten=TRUE) %>% 
         purrr::pluck("organisationUnits") %>% 
