@@ -34,11 +34,12 @@
     #create org unit level column names
       cols <- paste0("lvl_",seq(1,max(stringr::str_count(sites$path,"/"))))
     #split out path into each org unit  
+      suppressMessages(
       ou_structure <- sites %>%
         dplyr::mutate(path = stringr::str_remove(path, "^/")) %>% #remove starting / in path
         tidyr::separate(path, into=cols, sep="/", extra = "merge") %>% 
         dplyr::select(-lvl_1:-lvl_2) #remove Global/Region/Country
-      
+      )
     #identify all levels for pulling in names with mapvalues (lvl_1:lvl_2 removed)
       cols <- ou_structure %>% 
         dplyr::select(dplyr::starts_with("lvl_")) %>% 
@@ -59,21 +60,24 @@
         dplyr::filter(!is.na(lvl_7)) %>% 
         dplyr::select(-lvl_7) %>% 
         #rename
-        dplyr::rename(snu1 = lvl_4,
+        dplyr::rename(operatingunit = lvl_3,
+                      snu1 = lvl_4,
                       psnu = lvl_5,
                       community = lvl_6,
                       facility = name, 
                       facilityuid = id)
+      
      #pull ou OU name for saving 
       ou_name <- unique(ou_structure$lvl_3) %>% 
                  stringr::str_remove_all(., "[:space:]|'")
+      
      #separate out lat/long coordinates   
       ou_structure <- ou_structure %>% 
         dplyr::mutate(coordinates = stringr::str_remove_all(coordinates, "\\[|]")) %>% 
         tidyr::separate(coordinates, c("longitude", "latitude"), sep = ",")
      #reorder for output
       ou_structure <- ou_structure %>% 
-        dplyr::select(snu1, snu1uid, psnu, psnuuid, community, facility, facilityuid, latitude, longitude)
+        dplyr::select(operatingunit, snu1, snu1uid, psnu, psnuuid, community, facility, facilityuid, latitude, longitude)
     
      #export
       if(!is.null(folderpath_export)){
