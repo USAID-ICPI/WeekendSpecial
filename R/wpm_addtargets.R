@@ -10,11 +10,6 @@
 
 wpm_addtargets <- function(df, folderpath_targets){
   
-  #clean up prior to merge
-  df <- df %>% 
-    dplyr::rename(psnu = district,
-                  community = sub_district)
-  
   if(!is.null(folderpath_targets)){
     #import target file (explicit for silent read in)
     targets <- readr::read_csv(Sys.glob(file.path(folderpath_targets, "*targets*.csv")),
@@ -29,9 +24,9 @@ wpm_addtargets <- function(df, folderpath_targets){
                                target_wkly = "d")
                               )
       
-    #clean up df prior to merge (remove dups)
-      df <- df %>% 
-        dplyr::select(-province,  -facilityuid)
+    #clean up target file prior to merge (make sure we can merge (may be missing hierarchy if don't have site file))
+    targets <- targets %>% 
+        dplyr::select(-c(snu1,  snu1uid, psnuuid, facilityuid))
   
     #merge onto main df
       df <- dplyr::left_join(df, targets, by = c("facility", "mechanismid", "indicator"))
@@ -43,9 +38,7 @@ wpm_addtargets <- function(df, folderpath_targets){
     } else {
     #add blank columns if the coordinates file does not exist
       df <- df %>% 
-        dplyr::mutate(snu1uid = NA,
-                      psnuuid = NA,
-                      target_wkly = NA)
+        dplyr::mutate(target_wkly = NA)
     }
   
   return(df)
