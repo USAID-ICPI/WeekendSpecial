@@ -12,7 +12,7 @@ wpm_addtargets <- function(df, folderpath_targets){
   
   if(!is.null(folderpath_targets)){
     #import target file (explicit for silent read in)
-    targets <- readr::read_csv(Sys.glob(file.path(folderpath_targets, "*targets*.csv")),
+      targets <- readr::read_csv(Sys.glob(file.path(folderpath_targets, "*targets*.csv")),
                              col_types = readr::cols_only(
                                snu1 = "c",
                                snu1uid = "c",
@@ -25,8 +25,7 @@ wpm_addtargets <- function(df, folderpath_targets){
                               )
       
     #clean up target file prior to merge (make sure we can merge (may be missing hierarchy if don't have site file))
-    targets <- targets %>% 
-        dplyr::select(-c(snu1,  snu1uid, psnuuid, facility))
+      targets <- dplyr::select(targets, -c(snu1,  snu1uid, psnuuid, facility))
   
     #merge onto main df
       df <- dplyr::left_join(df, targets, by = c("facility", "mechanismid", "indicator"))
