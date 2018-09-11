@@ -28,7 +28,7 @@ wpm_addtargets <- function(df, folderpath_targets){
       targets <- dplyr::select(targets, -c(snu1,  snu1uid, psnuuid, facility))
   
     #merge onto main df
-      df <- dplyr::left_join(df, targets, by = c("facility", "mechanismid", "indicator"))
+      df <- dplyr::left_join(df, targets, by = c("facilityuid", "mechanismid", "indicator"))
     
     #make TX_CURR target cumulative
       df <- df %>% 
