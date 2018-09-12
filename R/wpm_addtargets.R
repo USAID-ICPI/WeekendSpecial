@@ -55,7 +55,7 @@ wpm_addtargets <- function(df, folderpath_targets){
     
     #add date back in  
       df <- df %>% 
-        dplyr::mutate(date = lubridate::days((week - 1) * 7) + lubridate::ymd(start_ymd))
+        dplyr::mutate(date = lubridate::days((fy_week - 1) * 7) + lubridate::ymd(start_ymd))
       
     #merge targets onto main df (left join -> drop where missing facilities are not captured in weekly reporting but had targets)
       df <- dplyr::left_join(df, targets_wk, by = c("facilityuid", "mechanismid", "indicator", "fy_week"))
