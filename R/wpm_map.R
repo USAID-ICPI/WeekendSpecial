@@ -18,7 +18,7 @@ wpm_map <- function(df, folderpath_orgunits){
                              col_types = readr::cols(.default = "c")) %>% 
       dplyr::mutate_at(dplyr::vars(latitude, longitude), ~ as.numeric(.))
     #drop hiearchy contained in orginal files
-    df <- dplyr::select(df, -c(province, district))
+    df <- dplyr::select(df, -c(province, district, sub_district))
     #merge onto main df
     df <- dplyr::left_join(df, coord, by = "facility")
   } else {
