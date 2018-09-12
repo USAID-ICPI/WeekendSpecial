@@ -69,8 +69,9 @@ wpm_import <- function(filepath, sheet_name){
       df_long <- df_long %>% 
         dplyr::mutate(date = lubridate::as_date(as.integer(pd), origin = "1899-12-30"))
     }
-  #additional date vars
+  #rearrange
     df_long <- df_long %>% 
+      dplyr::select(-pd) %>% 
       dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
       dplyr::filter(value != 0)
   
