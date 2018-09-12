@@ -51,7 +51,7 @@ wpm_addtargets <- function(df, folderpath_targets){
     #expand so each mech/site/ind has a line for merging weekly targets on (even where no results were reported)
       df <- df %>% 
         dplyr::select(-c(date)) %>% #drop date for complete to work correctly
-        tidyr::complete(tidyr::nesting(partner, sub_district, facility, tenxten_facility, reporting_freq, provincial_lead, site_lead, indicator, mechanismid, fundingagency, operatingunit, snu1, snu1uid, psnu, psnuuid, community, facilityuid, latitude, longitude), fy_week)
+        tidyr::complete(tidyr::nesting(partner, facility, tenxten_facility, reporting_freq, provincial_lead, site_lead, indicator, mechanismid, fundingagency, operatingunit, snu1, snu1uid, psnu, psnuuid, community, facilityuid, latitude, longitude), fy_week)
     
     #add date back in  
       df <- df %>% 
