@@ -38,15 +38,20 @@ wpm_addtargets <- function(df, folderpath_targets){
       targets_wk <-  
         purrr::map_df(seq_len(n_weeks), ~ targets) %>% 
         dplyr::group_by(mechanismid, facilityuid, indicator, target_wkly) %>% 
-        dplyr::mutate(id = row_number())  %>% 
+        dplyr::mutate(fy_week = row_number())  %>% 
         dplyr::ungroup()
       
-    #merge onto main df
-      df <- dplyr::left_join(df, targets, by = c("facilityuid", "mechanismid", "indicator"))
-    
     #make TX_CURR target cumulative
-      df <- df %>% 
+      targets_wk <- targets_wk %>% 
         dplyr::mutate(target_wkly = ifelse(indicator == "TX_CURR", fy_week * target_wkly, target_wkly))
+    
+    #expand so each mech/site/ind has a line for merging weekly targets on (even where no results were reported)
+      df <- df %>% 
+        dplyr::select(-c(date, month, quarter)) %>% 
+        tidyr::complete(tidyr::nesting(partner, sub_district, facility, tenxten_facility, reporting_freq, provincial_lead, site_lead, indicator, mechanismid, fundingagency, operatingunit, snu1, snu1uid, psnu, psnuuid, community, facilityuid, latitude, longitude), fy_week)
+      
+    #merge targets onto main df (left join -> drop where missing facilities are not captured in weekly reporting but had targets)
+      df <- dplyr::left_join(df, targets_wk, by = c("facilityuid", "mechanismid", "indicator", "fy_week"))
       
     } else {
     #add blank columns if the coordinates file does not exist
