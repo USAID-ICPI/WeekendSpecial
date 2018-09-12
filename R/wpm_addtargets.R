@@ -45,10 +45,17 @@ wpm_addtargets <- function(df, folderpath_targets){
       targets_wk <- targets_wk %>% 
         dplyr::mutate(target_wkly = ifelse(indicator == "TX_CURR", fy_week * target_wkly, target_wkly))
     
+    #capture start date of fiscal year (for adding date back in)
+      start_ymd <- min(df$date)
+      
     #expand so each mech/site/ind has a line for merging weekly targets on (even where no results were reported)
       df <- df %>% 
-        dplyr::select(-c(date, month, quarter)) %>% 
+        dplyr::select(-c(date)) %>% #drop date for complete to work correctly
         tidyr::complete(tidyr::nesting(partner, sub_district, facility, tenxten_facility, reporting_freq, provincial_lead, site_lead, indicator, mechanismid, fundingagency, operatingunit, snu1, snu1uid, psnu, psnuuid, community, facilityuid, latitude, longitude), fy_week)
+    
+    #add date back in  
+      df <- df %>% 
+        dplyr::mutate(date = lubridate::days((week - 1) * 7) + lubridate::ymd(start_ymd))
       
     #merge targets onto main df (left join -> drop where missing facilities are not captured in weekly reporting but had targets)
       df <- dplyr::left_join(df, targets_wk, by = c("facilityuid", "mechanismid", "indicator", "fy_week"))

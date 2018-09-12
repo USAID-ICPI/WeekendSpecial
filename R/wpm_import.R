@@ -71,9 +71,6 @@ wpm_import <- function(filepath, sheet_name){
     }
   #additional date vars
     df_long <- df_long %>% 
-      dplyr::mutate(date2 = as.character(lubridate::quarter(date, with_year = TRUE, fiscal_start = 10)),
-                    quarter = paste0("FY", stringr::str_sub(date2, start = 3, end = 4),"Q", stringr::str_sub(date2, start = -1))) %>% 
-      dplyr::select(-pd, -date2) %>% #remove intermediary variables
       dplyr::select(-value, dplyr::everything()) %>%  #move value to last column
       dplyr::filter(value != 0)
   

@@ -1,5 +1,5 @@
 
-#' Add FY week number & month
+#' Add FY week number
 #'
 #' @param df data frame to add week number to
 #' @param date_var unquoted variable that contains the date
@@ -26,12 +26,11 @@ wpm_addweek <- function(df, date_var, fy_start = "2017-10-02"){
     
   #add blank column for ordered placeholder
     df <- df %>% 
-      tibble::add_column(month = NA, fy_week = NA, .after = loc)
+      tibble::add_column(fy_week = NA, .after = loc)
     
   #add date
     df <- df %>% 
-      dplyr::mutate(month = lubridate::month(!!date_var, label = TRUE),
-                    fy_week = as.integer((!!date_var - fy_start)/7 + 1))
+      dplyr::mutate(fy_week = as.integer((!!date_var - fy_start)/7 + 1))
     
   return(df)
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/wpm_addweek.R
 \name{wpm_addweek}
 \alias{wpm_addweek}
-\title{Add FY week number & month}
+\title{Add FY week number}
 \usage{
 wpm_addweek(df, date_var, fy_start = "2017-10-02")
 }
@@ -14,7 +14,7 @@ wpm_addweek(df, date_var, fy_start = "2017-10-02")
 \item{fy_start}{first Monday of FY, default = "2017-10-02"}
 }
 \description{
-Add FY week number & month
+Add FY week number
 }
 \examples{
 \dontrun{

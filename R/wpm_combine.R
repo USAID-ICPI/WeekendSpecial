@@ -31,7 +31,10 @@ wpm_combine <- function(folderpath_reports, folderpath_sitecoords = NULL, folder
     
   #add weekly targets
     df_full_weekly <- wpm_addtargets(df_full_weekly, folderpath_targets)
-
+  
+  #add extra dates
+    df_full_weekly <- wpm_addpds(df_full_weekly, date)
+    
   #arrange
     df_full_weekly <- df_full_weekly %>% 
       dplyr::select(fundingagency, mechanismid, partner, snu1, snu1uid, psnu, psnuuid, community, facility, 
