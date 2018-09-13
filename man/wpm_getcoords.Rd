@@ -4,15 +4,10 @@
 \alias{wpm_getcoords}
 \title{Call site coordinates and hierarchy from DATIM via API}
 \usage{
-wpm_getcoords(organisationUnit = NA, level = NA, ou_name = NA,
-  folderpath_export = NULL)
+wpm_getcoords(organisationUnit = NA, folderpath_export = NULL)
 }
 \arguments{
 \item{organisationUnit}{what is the UID for the country you would like site coordinates for?}
-
-\item{level}{what is the site level in DATIM, eg 7?}
-
-\item{ou_name}{what is the name of the country? (used for saving)}
 
 \item{folderpath_export}{what is the folderpath where you would like to save the export the file (csv)?}
 }
@@ -21,6 +16,7 @@ Adapted from J.Pickering's DATIM Vaidation package - datimvalidation::getOrganis
 }
 \examples{
 \dontrun{
-  wpm_getcoords("cDGPF739ZZr", 7, "ZAF", "GIS")}
+  datimvalidation::loadSecrets()
+  wpm_getcoords("cDGPF739ZZr", "GIS")}
 
 }

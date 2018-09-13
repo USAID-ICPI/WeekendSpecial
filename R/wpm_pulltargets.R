@@ -13,7 +13,7 @@
 wpm_pulltargets <- function(filepath_msd, folder_output, countryname) {
 
   #import site MER Structured Dataset, specifying cols to keep
-    df <- readr::read_tsv(filepath_msd,  
+    df <- readr::read_tsv(filepath_msd,
                           col_type  = readr::cols_only(
                                                 SNU1 = "c",
                                                 SNU1Uid = "c",
